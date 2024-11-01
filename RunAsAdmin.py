@@ -3,7 +3,7 @@ import sys
 import ctypes
 import winreg
 
-CMD = "da.exe"
+CMD = "" # полный путь до файла с расширением
 FOD_HELPER = r'C:\Windows\System32\fodhelper.exe'
 PYTHON_CMD = "python"
 REG_PATH = 'Software\Classes\ms-settings\shell\open\command'
